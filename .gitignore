@@ -1,5 +1,5 @@
-# Compiled
-*.elc
-
-# Packaging
-.cask
+# Ignore everything
+*
+# Except the gitignore
+!.gitignore
+!init.el
