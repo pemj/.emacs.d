@@ -1,11 +1,20 @@
-(require 'package)
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/"))
-(package-initialize)
+
+;;so that we have MELPA in the packages, that more packages will appear!
+(when (> emacs-major-version 23)
+  (require 'package)
+  (package-initialize)
+  (add-to-list 'package-archives 
+	       '("marmalade" . "http://marmalade-repo.org/packages/")
+	       'APPEND))
+
+;;(require 'package)
+;;(add-to-list 'package-archives
+;;'("marmalade" . "http://marmalade-repo.org/packages/"))
+;;(package-initialize)
 
 ;;colorizing and fonting.
 (add-to-list 'default-frame-alist
-                       '(font . "DejaVu Sans Mono-10"))
+	     '(font . "DejaVu Sans Mono-10"))
 (add-to-list 'default-frame-alist '(foreground-color . "white"))
 (add-to-list 'default-frame-alist '(background-color . "black"))
 
@@ -24,7 +33,7 @@
 ;;(add-to-list 'load-path "~/emacs.d/pde")
 ;;(require 'pde-load)
 ;;this enables ido
-(require 'ido)
+;;(require 'ido)
 (ido-mode t)
 
 ;;; cperl-mode is preferred to perl-mode                                      ;;; "Brevity is the soul of wit" <foo at acm.org>                             
@@ -34,14 +43,6 @@
 (setq auto-mode-alist (cons '("\\.ml[iylp]?\\'" . tuareg-mode) auto-mode-alist))
 (autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t)
 (autoload 'ocamldebug "ocamldebug" "Run the Caml debugger" t)
-
-;;so that we have MELPA in the packages, that more packages will appear!
-(when (> emacs-major-version 23)
-  (require 'package)
-  (package-initialize)
-  (add-to-list 'package-archives 
-	       '("melpa" . "http://melpa.milkbox.net/packages/")
-	       'APPEND))
 
 ;;set TrampMode to use SSH for its connections
 (setq tramp-default-method "ssh")
@@ -55,10 +56,10 @@
 (setq tab-width 4)
 (setq tab-stop-list (my-generate-tab-stops))
 (add-hook 'python-mode-hook
-      (lambda ()
-        (setq indent-tabs-mode t)
-        (setq tab-width 4)
-        (setq python-indent 4)))
+	  (lambda ()
+	    (setq indent-tabs-mode t)
+	    (setq tab-width 4)
+	    (setq python-indent 4)))
 
 
 (custom-set-variables
@@ -87,16 +88,16 @@
 (setq load-path (append (list "/usr/share/emacs/site-lisp/gnuplot.el") load-path))
 
 ;; these lines enable the use of gnuplot mode
-  (autoload 'gnuplot-mode "gnuplot" "gnuplot major mode" t)
-  (autoload 'gnuplot-make-buffer "gnuplot" "open a buffer in gnuplot mode" t)
+(autoload 'gnuplot-mode "gnuplot" "gnuplot major mode" t)
+(autoload 'gnuplot-make-buffer "gnuplot" "open a buffer in gnuplot mode" t)
 
 ;; this line automatically causes all files with the .gp extension to
 ;; be loaded into gnuplot mode
-  (setq auto-mode-alist (append '(("\\.gp$" . gnuplot-mode)) auto-mode-alist))
+(setq auto-mode-alist (append '(("\\.gp$" . gnuplot-mode)) auto-mode-alist))
 
 ;; This line binds the function-9 key so that it opens a buffer into
 ;; gnuplot mode 
-  (global-set-key [(f9)] 'gnuplot-make-buffer)
+(global-set-key [(f9)] 'gnuplot-make-buffer)
 
 ;; end of line for gnuplot-mode
 ;;--------------------------------------------------------------------
@@ -153,11 +154,13 @@ environments."
                   ("description" LaTeX-indent-item))
                 LaTeX-indent-environment-list)))
 
-(require 'flymake-cursor)
-(load "auctex.el" nil t t)
-(load "preview-latex.el" nil t t)
+;;(require 'flymake-cursor)
 
 
-
-
-
+;; Handle backups
+(setq backup-directory-alist `(("." . "~/.saves")))
+(setq backup-by-copying t)
+(setq delete-old-versions t
+      kept-new-versions 6
+      kept-old-versions 2
+      version-control t)
