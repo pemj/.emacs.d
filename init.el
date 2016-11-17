@@ -3,9 +3,7 @@
              '("marmalade" . "http://marmalade-repo.org/packages/"))
 (package-initialize)
 
-;;colorizing and fonting.
-(add-to-list 'default-frame-alist
-                       '(font . "DejaVu Sans Mono-10"))
+;;colorizing 
 (add-to-list 'default-frame-alist '(foreground-color . "white"))
 (add-to-list 'default-frame-alist '(background-color . "black"))
 
@@ -61,19 +59,7 @@
         (setq python-indent 4)))
 
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(LaTeX-command "latex")
- '(safe-local-variable-values (quote ((TeX-master . "main")))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
 
 ;; Haskell indentation mode goes here
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
@@ -100,62 +86,7 @@
 
 ;; end of line for gnuplot-mode
 ;;--------------------------------------------------------------------
-(defun LaTeX-indent-item ()
-  "Provide proper indentation for LaTeX \"itemize\",\"enumerate\", and
-\"description\" environments.
 
-  \"\\item\" is indented `LaTeX-indent-level' spaces relative to
-  the the beginning of the environment.
-
-  Continuation lines are indented either twice
-  `LaTeX-indent-level', or `LaTeX-indent-level-item-continuation'
-  if the latter is bound."
-  (save-match-data
-    (let* ((offset LaTeX-indent-level)
-           (contin (or (and (boundp 'LaTeX-indent-level-item-continuation)
-                            LaTeX-indent-level-item-continuation)
-                       (* 2 LaTeX-indent-level)))
-           (re-beg "\\\\begin{")
-           (re-end "\\\\end{")
-           (re-env "\\(itemize\\|\\enumerate\\|description\\)")
-           (indent (save-excursion
-                     (when (looking-at (concat re-beg re-env "}"))
-                       (end-of-line))
-                     (LaTeX-find-matching-begin)
-                     (current-column))))
-      (cond ((looking-at (concat re-beg re-env "}"))
-             (or (save-excursion
-                   (beginning-of-line)
-                   (ignore-errors
-                     (LaTeX-find-matching-begin)
-                     (+ (current-column)
-                        (if (looking-at (concat re-beg re-env "}"))
-                            contin
-                          offset))))
-                 indent))
-	    ((looking-at (concat re-end re-env "}"))
-	     indent)
-            ((looking-at "\\\\item")
-             (+ offset indent))
-            (t
-             (+ contin indent))))))
-
-(defcustom LaTeX-indent-level-item-continuation 4
-  "*Indentation of continuation lines for items in itemize-like
-environments."
-  :group 'LaTeX-indentation
-  :type 'integer)
-
-(eval-after-load "latex"
-  '(setq LaTeX-indent-environment-list
-         (nconc '(("itemize" LaTeX-indent-item)
-                  ("enumerate" LaTeX-indent-item)
-                  ("description" LaTeX-indent-item))
-                LaTeX-indent-environment-list)))
-
-(require 'flymake-cursor)
-(load "auctex.el" nil t t)
-(load "preview-latex.el" nil t t)
 
 
 
