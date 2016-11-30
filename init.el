@@ -18,15 +18,20 @@
 (column-number-mode 1)
 ;;shows the line number next to the line
 (global-linum-mode t)
-;;this enables the perl dev environment.  Or it would, if it weren't broken as hell.
-;;(add-to-list 'load-path "~/emacs.d/pde")
-;;(require 'pde-load)
+
+;;enables powershell editing.
+(add-to-list 'load-path "~/.emacs.d/elisp/")
+(require 'powershell-mode)
+;; this line automatically causes all files with the .ps1 or .psm1 extensions to
+;; be loaded into powershell mode
+(setq auto-mode-alist (append '(("\\.ps1$" . powershell-mode)) auto-mode-alist))
+(setq auto-mode-alist (append '(("\\.psm1$" . powershell-mode)) auto-mode-alist))
+
+
 ;;this enables ido
 (require 'ido)
 (ido-mode t)
 
-;;; cperl-mode is preferred to perl-mode                                      ;;; "Brevity is the soul of wit" <foo at acm.org>                             
-(defalias 'perl-mode 'cperl-mode)
 
 ;; this is to enable tuareg mode automatically for ocaml source files
 (setq auto-mode-alist (cons '("\\.ml[iylp]?\\'" . tuareg-mode) auto-mode-alist))
@@ -53,10 +58,10 @@
 (setq tab-width 4)
 (setq tab-stop-list (my-generate-tab-stops))
 (add-hook 'python-mode-hook
-      (lambda ()
-        (setq indent-tabs-mode t)
-        (setq tab-width 4)
-        (setq python-indent 4)))
+	  (lambda ()
+	    (setq indent-tabs-mode t)
+	    (setq tab-width 4)
+	    (setq python-indent 4)))
 
 
 
@@ -69,20 +74,18 @@
 ;; Lines enabling gnuplot-mode
 
 ;; move the files gnuplot.el to someplace in your lisp load-path or
-;; use a line like
-(setq load-path (append (list "/usr/share/emacs/site-lisp/gnuplot.el") load-path))
 
 ;; these lines enable the use of gnuplot mode
-  (autoload 'gnuplot-mode "gnuplot" "gnuplot major mode" t)
-  (autoload 'gnuplot-make-buffer "gnuplot" "open a buffer in gnuplot mode" t)
+(autoload 'gnuplot-mode "gnuplot" "gnuplot major mode" t)
+(autoload 'gnuplot-make-buffer "gnuplot" "open a buffer in gnuplot mode" t)
 
 ;; this line automatically causes all files with the .gp extension to
 ;; be loaded into gnuplot mode
-  (setq auto-mode-alist (append '(("\\.gp$" . gnuplot-mode)) auto-mode-alist))
+(setq auto-mode-alist (append '(("\\.gp$" . gnuplot-mode)) auto-mode-alist))
 
 ;; This line binds the function-9 key so that it opens a buffer into
 ;; gnuplot mode 
-  (global-set-key [(f9)] 'gnuplot-make-buffer)
+(global-set-key [(f9)] 'gnuplot-make-buffer)
 
 ;; end of line for gnuplot-mode
 ;;--------------------------------------------------------------------
